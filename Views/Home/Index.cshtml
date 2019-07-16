@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+    <div class="jumbotron">
+        <h1>Upload Docs: </h1>
+        <p style="color:red; font-size:small" class="lead">Add tweets.txt and user.txt file names only, in the grey box</p>
+        <div id="dropArea">
+            @*//droping files here...*@
+            
+        </div>
+
+        <ul class="list-group" id="uploadList">
+
+        </ul>
+
+    </div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("DeleteFollower", "Home")'">
+            Get user and followers &raquo;
+        </button>
+    </div>
+    <div class="col-md-4">
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Contact", "Home")'">
+            Add follower to user &raquo;
+        </button>
+        
+    </div>
+    <div class="col-md-4">
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("DeleteFollower", "Home")'">
+            Delete a follower from user &raquo;
+        </button>
+        
+    </div>
+
+
+    <style>
+#dropArea{
+    background:lightgrey;
+    border:black dashed 1px;
+    height:150px;
+    text-align:left;
+    color:green
+}
+
+.active-drop{
+    background:lightblue;
+    border: solid 2px blue;
+    opacity:initial;
+    color:black;
+}
+    </style>
+
+    @section Scripts{
+
+        <script src="~/Scripts/jquery.filedrop.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#dropArea').filedrop({
+                    url: '@Url.Action("UploadFiles")',
+                    allowedfileextensions: ['.txt'],
+                    paramname: 'files',
+                    maxfiles: 2,
+                    dragOver: function () {
+                        $('#dropArea').addClass('active-drop');
+
+                    },
+                    dragLeave: function () {
+                        $('#dropArea').removeClass('active-drop');
+
+                    },
+                    drop: function () {
+                        $('#dropArea').removeClass('active-drop');
+                    },
+                    afterAll: function (e) {
+                        $('#dropArea').html('files have been uploaded :-)');
+                    },
+                    uploadFinished: function (i,file, response,time) {
+                        $('#uploadList').append('<li class="list-group-item">' +file.name + '</li>')
+                    }
+                 })
+            })
+        </script>
+
+        }
+
+</div>
